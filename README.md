@@ -1,19 +1,16 @@
-# ChuRP: Dynamic-Committee Proactive Secret Sharing
+# CHURP: Dynamic-Committee Proactive Secret Sharing
 
 [![CircleCI](https://circleci.com/gh/bl4ck5un/ChuRP.svg?style=svg&circle-token=34c3da94eba4225de1da5c4eaabd37466cd50a8a)](https://circleci.com/gh/bl4ck5un/ChuRP)
 
 ## Getting Started
 
-These intructions will get you through the organization of protocol codes and prepare you to run the protocol on you local machine for development and testing purposes. Automatic scripts for AWS deployment will come along in the near future. The codes are currently implemented using Go Wrappers of [GNU Multi Precision library](https://github.com/ncw/gmp), [Pairing Based Cryptography library](https://github.com/Nik-U/pbc) and [Google Protobuffer](https://github.com/golang/protobuf). You need to install all dependencies listed below. The recommended way to do this is to use the docker image we provided.
+These instructions will get you through the organization of the CHURP code and prepare you to run CHURP on your local machine for development and testing purposes. Automatic scripts for AWS deployment will come along in the near future. The code is currently implemented using Go Wrappers of [GNU Multi Precision library](https://github.com/ncw/gmp), [Pairing Based Cryptography library](https://github.com/Nik-U/pbc) and [Google Protobuffer](https://github.com/golang/protobuf). You need to install all dependencies listed below. The recommended way to do this is to use the docker image we provide.
 
 ### Run with Docker
 
 #### Install Docker
 
-We strongly recommend you to run the codes with the docker image
-we provide which already contains all the dependencies. To run wi
-th docker, you first need to install docker on your machine. Refe
-r to the [docker document](https://docs.docker.com/install/#supported-platforms) for installation instructions.
+We strongly recommend you to run the codes with the docker image we provide which already contains all the dependencies. To run with docker, you first need to install docker on your machine. Refer to the [docker document](https://docs.docker.com/install/#supported-platforms) for installation instructions.
 
 #### Download Docker Image
 
@@ -36,6 +33,19 @@ cd src/localtest
 ./reset.sh
 ./simple.sh 3 1
 ~~~
+
+## API
+
+At a high level, CHURP provides the following API:
+
+* `initialize(threshold, committeeList)`: Set the required parameters for CHURP. Some example parameters that need to be set are the epoch duration and commitment scheme parameters.
+
+* (Optional) `storeSecret(SK)`: Distribute the secret `SK` using [(t, n)-sharing](https://en.wikipedia.org/wiki/Shamir%27s_Secret_Sharing) such that each node in the `committeeList` stores a share of the secret. (Note that this function is optional. For some applications, the secret might be generated randomly using [Distributed Key Generation](https://en.wikipedia.org/wiki/Distributed_key_generation) protocols.)
+
+* `changeCommittee(newCommitteeList)`: Execute CHURP to handoff the secret `SK` from the old committee, `committeeList`, to the new committee, `newCommitteeList`.
+
+* (Optional) `retrieveSecret() -> SK`: Reconstruct the secret from shares retrieved from nodes in the `committeeList`. (Note that this function is optional, i.e., CHURP works without any need to explicitly reconstruct the secret.)
+
 
 ## Authors
 Lun Wang, Fan Zhang, Andrew Low
