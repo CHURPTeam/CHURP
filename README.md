@@ -38,13 +38,13 @@ cd src/localtest
 
 At a high level, CHURP provides the following API:
 
-* `initialize(threshold, committeeList)`: Set the required parameters for CHURP. Some example parameters that need to be set are the epoch duration and commitment scheme parameters.
+* `initialize(t, [nodeList], ...)`: Set the required parameters for CHURP: `t` stands for the threshold and `nodeList` represents the set of nodes that form a committee. Some other parameters that need to be set are the epoch duration and commitment scheme parameters.
 
-* (Optional) `storeSecret(SK)`: Distribute the secret `SK` using [(t, n)-sharing](https://en.wikipedia.org/wiki/Shamir%27s_Secret_Sharing) such that each node in the `committeeList` stores a share of the secret. (Note that this function is optional. For some applications, the secret might be generated randomly using [Distributed Key Generation](https://en.wikipedia.org/wiki/Distributed_key_generation) protocols.)
+* (Optional) `storeSecret(SK)`: Distribute the secret `SK` using [(t, n)-sharing](https://en.wikipedia.org/wiki/Shamir%27s_Secret_Sharing) `(n=|nodeList|)` such that each node in `nodeList` stores a share of the secret. (Note that this function is optional. For some applications, the secret might be generated randomly using [Distributed Key Generation](https://en.wikipedia.org/wiki/Distributed_key_generation) protocols.)
 
-* `changeCommittee(newCommitteeList)`: Execute CHURP to handoff the secret `SK` from the old committee, `committeeList`, to the new committee, `newCommitteeList`.
+* `changeCommittee([newNodeList])`: Execute CHURP to handoff the secret `SK` from the old committee, `nodeList`, to the new committee, `newNodeList`.
 
-* (Optional) `retrieveSecret() -> SK`: Reconstruct the secret from shares retrieved from nodes in the `committeeList`. (Note that this function is optional, i.e., CHURP works without any need to explicitly reconstruct the secret.)
+* (Optional) `retrieveSecret() -> SK`: Reconstruct the secret from shares retrieved from nodes in the `nodeList`. (Note that this function is optional, i.e., CHURP works without any need to explicitly reconstruct the secret.)
 
 
 ## Authors
