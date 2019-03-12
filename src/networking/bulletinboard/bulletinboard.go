@@ -1,12 +1,12 @@
 package bulletinboard
 
 import (
-	pb "../../services"
-	"../../utils/commitment"
-	"../../utils/polyring"
 	"context"
 	"errors"
 	"fmt"
+	pb "github.com/bl4ck5un/ChuRP/src/services"
+	"github.com/bl4ck5un/ChuRP/src/utils/commitment"
+	"github.com/bl4ck5un/ChuRP/src/utils/polyring"
 	"io/ioutil"
 	"log"
 	"math/rand"
@@ -167,46 +167,46 @@ func (bb *BulletinBoard) ClientStartPhase1() {
 		wg.Add(1)
 		go func(i int) {
 			defer wg.Done()
-	        ctx, cancel := context.WithCancel(context.Background())
-		    defer cancel()
+			ctx, cancel := context.WithCancel(context.Background())
+			defer cancel()
 			bb.nClient[i].StartPhase1(ctx, &pb.EmptyMsg{})
-		} (i)
+		}(i)
 	}
 	wg.Wait()
 }
 
 func (bb *BulletinBoard) ClientStartVerifPhase2() {
-    var wg sync.WaitGroup
+	var wg sync.WaitGroup
 	for i := 0; i < bb.counter; i++ {
 		log.Print("[bulletinboard] start verification in phase 2")
 		wg.Add(1)
 		go func(i int) {
 			defer wg.Done()
-	        ctx, cancel := context.WithCancel(context.Background())
-		    defer cancel()
+			ctx, cancel := context.WithCancel(context.Background())
+			defer cancel()
 			bb.nClient[i].StartVerifPhase2(ctx, &pb.EmptyMsg{})
-		} (i)
+		}(i)
 	}
 	wg.Wait()
 }
 
 func (bb *BulletinBoard) ClientStartVerifPhase3() {
-    var wg sync.WaitGroup
+	var wg sync.WaitGroup
 	for i := 0; i < bb.counter; i++ {
 		log.Print("[bulletinboard] start verification in phase 3")
 		wg.Add(1)
 		go func(i int) {
 			defer wg.Done()
-	        ctx, cancel := context.WithCancel(context.Background())
-		    defer cancel()
+			ctx, cancel := context.WithCancel(context.Background())
+			defer cancel()
 			bb.nClient[i].StartVerifPhase3(ctx, &pb.EmptyMsg{})
-		} (i)
+		}(i)
 	}
 	wg.Wait()
 	*bb.proCnt = 0
 	*bb.shaCnt = 0
-    f, _ := os.OpenFile(bb.metadataPath + "/log0", os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0644)
-    defer f.Close()
+	f, _ := os.OpenFile(bb.metadataPath+"/log0", os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0644)
+	defer f.Close()
 	fmt.Fprintf(f, "totMsgSize,%d\n", *bb.totMsgSize)
 	*bb.totMsgSize = 0
 }
@@ -271,8 +271,8 @@ func New(degree int, counter int, metadataPath string) (BulletinBoard, error) {
 		shaCnt:                 &shaCnt,
 		reconstructionContent:  reconstructionContent,
 		proactivizationContent: proactivizationContent,
-		nConn:					nConn,
-		nClient:				nClient,
-		totMsgSize:				&totMsgSize,
+		nConn:                  nConn,
+		nClient:                nClient,
+		totMsgSize:             &totMsgSize,
 	}, nil
 }

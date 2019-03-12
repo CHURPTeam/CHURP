@@ -4,10 +4,10 @@ import (
 	"fmt"
 	"math/big"
 
-	"../../utils/conv"
-	"../../utils/ecparam"
-	"../../utils/polyring"
 	. "github.com/Nik-U/pbc"
+	"github.com/bl4ck5un/ChuRP/src/utils/conv"
+	"github.com/bl4ck5un/ChuRP/src/utils/ecparam"
+	"github.com/bl4ck5un/ChuRP/src/utils/polyring"
 	. "github.com/ncw/gmp"
 )
 
