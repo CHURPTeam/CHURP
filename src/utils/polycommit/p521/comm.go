@@ -7,7 +7,7 @@ import (
 	"fmt"
 	"math/big"
 
-	"../../polyring"
+	"github.com/bl4ck5un/ChuRP/src/utils/polyring"
 )
 
 // this uses Curve

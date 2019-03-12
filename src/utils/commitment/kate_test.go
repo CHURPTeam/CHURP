@@ -5,7 +5,7 @@ import (
 	"testing"
 	"time"
 
-	"../polyring"
+	"github.com/bl4ck5un/ChuRP/src/utils/polyring"
 	. "github.com/ncw/gmp"
 	"github.com/stretchr/testify/assert"
 )

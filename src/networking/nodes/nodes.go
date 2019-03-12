@@ -1,16 +1,19 @@
 package nodes
 
 import (
-	pb "../../services"
-	"../../utils/commitment"
-	"../../utils/interpolation"
-	"../../utils/polypoint"
-	"../../utils/polyring"
 	"context"
 	"errors"
 	"fmt"
 	"github.com/Nik-U/pbc"
+	pb "github.com/bl4ck5un/ChuRP/src/services"
+	"github.com/bl4ck5un/ChuRP/src/utils/commitment"
+	"github.com/bl4ck5un/ChuRP/src/utils/interpolation"
+	"github.com/bl4ck5un/ChuRP/src/utils/polypoint"
+	"github.com/bl4ck5un/ChuRP/src/utils/polyring"
+	"github.com/golang/protobuf/proto"
+	"github.com/ncw/gmp"
 	"google.golang.org/grpc"
+	"google.golang.org/grpc/reflection"
 	"io/ioutil"
 	"log"
 	"math/big"
@@ -19,11 +22,8 @@ import (
 	"os"
 	"strconv"
 	"strings"
-	"time"
 	"sync"
-	"github.com/ncw/gmp"
-	"google.golang.org/grpc/reflection"
-	"github.com/golang/protobuf/proto"
+	"time"
 )
 
 // Network Node Structure
@@ -80,31 +80,31 @@ type Node struct {
 	proPoly *polyring.Polynomial
 	// [+] Commitment & Witness in Phase 2
 	zeroShareCmt *pbc.Element
-    zeroPolyCmt  *pbc.Element
-    zeroPolyWit  *pbc.Element
+	zeroPolyCmt  *pbc.Element
+	zeroPolyWit  *pbc.Element
 
 	// Share Distribution Phase
 	// [+] New Poynomials
 	newPoly *polyring.Polynomial
 	// [+] Counter for New Secret Shares
-	shareCnt     *int
+	shareCnt *int
 
 	// Commitment and Witness from BulletinBoard
-	oldPolyCmt []*pbc.Element
-    zerosumShareCmt []*pbc.Element
-    zerosumPolyCmt  []*pbc.Element
-    zerosumPolyWit  []*pbc.Element
-	midPolyCmt []*pbc.Element
-	newPolyCmt []*pbc.Element
+	oldPolyCmt      []*pbc.Element
+	zerosumShareCmt []*pbc.Element
+	zerosumPolyCmt  []*pbc.Element
+	zerosumPolyWit  []*pbc.Element
+	midPolyCmt      []*pbc.Element
+	newPolyCmt      []*pbc.Element
 
 	// Metrics
 	totMsgSize *int
-	s1 *time.Time
-	e1 *time.Time
-	s2 *time.Time
-	e2 *time.Time
-	s3 *time.Time
-	e3 *time.Time
+	s1         *time.Time
+	e1         *time.Time
+	s2         *time.Time
+	e2         *time.Time
+	s3         *time.Time
+	e3         *time.Time
 
 	// gRPC Clients and Server
 	bConn   *grpc.ClientConn
@@ -289,21 +289,21 @@ func (node *Node) ClientSharePhase1() {
 	for i := 0; i < node.counter; i++ {
 		if i != node.label-1 {
 			log.Printf("[node %d] send point message to [node %d] in phase 1", node.label, i+1)
-            x := node.secretShares[i].X
-            y := node.secretShares[i].Y.Bytes()
-            witness := node.secretShares[i].PolyWit.CompressedBytes()
-            msg := &pb.PointMsg{
-                X:       x,
-                Y:       y,
-                Witness: witness,
-            }
+			x := node.secretShares[i].X
+			y := node.secretShares[i].Y.Bytes()
+			witness := node.secretShares[i].PolyWit.CompressedBytes()
+			msg := &pb.PointMsg{
+				X:       x,
+				Y:       y,
+				Witness: witness,
+			}
 			wg.Add(1)
 			go func(i int, msg *pb.PointMsg) {
 				defer wg.Done()
-			    ctx, cancel := context.WithCancel(context.Background())
+				ctx, cancel := context.WithCancel(context.Background())
 				defer cancel()
 				node.nClient[i].SharePhase1(ctx, msg)
-			} (i, msg)
+			}(i, msg)
 		}
 	}
 	wg.Wait()
@@ -346,7 +346,7 @@ func (node *Node) ClientReadPhase1() {
 	}
 	poly, err := interpolation.LagrangeInterpolate(node.degree, x, y, node.p)
 	if err != nil {
-		for i:=0; i<len(x); i++ {
+		for i := 0; i < len(x); i++ {
 			log.Print(x[i])
 			log.Print(y[i])
 		}
@@ -391,7 +391,7 @@ func (node *Node) ClientSharePhase2() {
 		node.proPoly.ResetTo(poly.DeepCopy())
 		node.ClientWritePhase2()
 	}
-    var wg sync.WaitGroup
+	var wg sync.WaitGroup
 	for i := 0; i < node.counter; i++ {
 		if i != node.label-1 {
 			log.Printf("[node %d] send message to [node %d] in phase 2", node.label, i+1)
@@ -402,10 +402,10 @@ func (node *Node) ClientSharePhase2() {
 			wg.Add(1)
 			go func(i int, msg *pb.ZeroMsg) {
 				defer wg.Done()
-	            ctx, cancel := context.WithCancel(context.Background())
-		        defer cancel()
+				ctx, cancel := context.WithCancel(context.Background())
+				defer cancel()
 				node.nClient[i].SharePhase2(ctx, msg)
-			} (i, msg)
+			}(i, msg)
 		}
 	}
 	wg.Wait()
@@ -491,17 +491,17 @@ func (node *Node) ClientSharePhase3() {
 			log.Printf("[node %d] send point message to [node %d] in phase 3", node.label, i+1)
 			msg := &pb.PointMsg{
 				Index:   int32(node.label),
-				X:       int32(i+1),
+				X:       int32(i + 1),
 				Y:       eval.Bytes(),
 				Witness: witness.CompressedBytes(),
 			}
 			wg.Add(1)
 			go func(i int, msg *pb.PointMsg) {
-	            ctx, cancel := context.WithCancel(context.Background())
-		        defer cancel()
+				ctx, cancel := context.WithCancel(context.Background())
+				defer cancel()
 				defer wg.Done()
 				node.nClient[i].SharePhase3(ctx, msg)
-			} (i, msg)
+			}(i, msg)
 		} else {
 			node.secretShares[i].Y.Set(eval)
 			node.secretShares[i].PolyWit.Set(witness)
@@ -560,7 +560,7 @@ func (node *Node) ClientReadPhase3() {
 
 	}
 	*node.e3 = time.Now()
-	f, _ := os.OpenFile(node.metadataPath + "/log" + strconv.Itoa(node.label), os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0644)
+	f, _ := os.OpenFile(node.metadataPath+"/log"+strconv.Itoa(node.label), os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0644)
 	defer f.Close()
 	fmt.Fprintf(f, "totMsgSize,%d\n", *node.totMsgSize)
 	fmt.Fprintf(f, "epochLatency,%d\n", node.e3.Sub(*node.s1).Nanoseconds())
@@ -568,7 +568,7 @@ func (node *Node) ClientReadPhase3() {
 	fmt.Fprintf(f, "proactivizationLatency,%d\n", node.e2.Sub(*node.s2).Nanoseconds())
 	fmt.Fprintf(f, "sharedistLatency,%d\n", node.e3.Sub(*node.s3).Nanoseconds())
 	*node.totMsgSize = 0
-	for i:=0; i<node.counter; i++ {
+	for i := 0; i < node.counter; i++ {
 		node.zeroShares[i].SetInt64(0)
 	}
 	node.zeroShare.SetInt64(0)
@@ -727,12 +727,12 @@ func New(degree int, label int, counter int, metadataPath string) (Node, error) 
 		zerosumPolyCmt:  zerosumPolyCmt,
 		zerosumPolyWit:  zerosumPolyWit,
 		totMsgSize:      &totMsgSize,
-		s1:				&s1,
-		e1:				&e1,
-		s2:				&s2,
-		e2:				&e2,
-		s3:				&s3,
-		e3:				&e3,
+		s1:              &s1,
+		e1:              &e1,
+		s2:              &s2,
+		e2:              &e2,
+		s3:              &s3,
+		e3:              &e3,
 		nConn:           nConn,
 		nClient:         nClient,
 		iniflag:         &iniflag,

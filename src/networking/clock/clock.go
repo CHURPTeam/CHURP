@@ -1,16 +1,12 @@
 package clock
 
 import (
-	// "os"
-	// "fmt"
-	"log"
-	// "net"
-	// "errors"
 	"context"
-	"strings"
-	"io/ioutil"
+	pb "github.com/bl4ck5un/ChuRP/src/services"
 	"google.golang.org/grpc"
-	pb "../../services"
+	"io/ioutil"
+	"log"
+	"strings"
 )
 
 // Clock Simulator Structure
@@ -20,7 +16,7 @@ type Clock struct {
 	// BulltinBoard IP
 	bip string
 	// BulletinBoard Service Client
-	bConn *grpc.ClientConn
+	bConn   *grpc.ClientConn
 	bClient pb.BulletinBoardServiceClient
 }
 
@@ -40,7 +36,7 @@ func (clock *Clock) Disconnect() {
 func (clock *Clock) ClientStartEpoch() {
 	ctx, cancel := context.WithCancel(context.Background())
 	defer cancel()
-    log.Print("client start epoch")
+	log.Print("client start epoch")
 	_, err := clock.bClient.StartEpoch(ctx, &pb.EmptyMsg{})
 	if err != nil {
 		log.Fatalf("clock start epoch failed: %v", err)
@@ -59,7 +55,7 @@ func ReadIpList(metadataPath string) []string {
 func New(metadataPath string) (Clock, error) {
 	bip := ReadIpList(metadataPath)[0]
 	return Clock{
-		metadataPath:           metadataPath,
-		bip:                    bip,
+		metadataPath: metadataPath,
+		bip:          bip,
 	}, nil
 }

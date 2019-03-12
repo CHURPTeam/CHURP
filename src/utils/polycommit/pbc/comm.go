@@ -6,10 +6,10 @@ import (
 	"fmt"
 	"math/big"
 
-	"../../conv"
-	"../../polyring"
-	"../../ecparam"
 	"github.com/Nik-U/pbc"
+	"github.com/bl4ck5un/ChuRP/src/utils/conv"
+	"github.com/bl4ck5un/ChuRP/src/utils/ecparam"
+	"github.com/bl4ck5un/ChuRP/src/utils/polyring"
 )
 
 var Curve = ecparam.PBC256

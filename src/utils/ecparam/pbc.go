@@ -13,11 +13,11 @@ const configString = "type a q 7551229346118097707657055192679868878245809937493
 const order = "57896044618658097711785492504343953926634992332820282019728792006155588075521"
 
 type ECParams struct {
-	Params *pbc.Params
+	Params  *pbc.Params
 	Pairing *pbc.Pairing
-	Nbig *big.Int
-	Ngmp *gmp.Int
-	G *pbc.Element
+	Nbig    *big.Int
+	Ngmp    *gmp.Int
+	G       *pbc.Element
 }
 
 func initializeParams() ECParams {

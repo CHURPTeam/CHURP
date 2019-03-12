@@ -6,8 +6,8 @@ import (
 	"math/big"
 	"testing"
 
-	"../../conv"
-	"../../polyring"
+	"github.com/bl4ck5un/ChuRP/src/utils/conv"
+	"github.com/bl4ck5un/ChuRP/src/utils/polyring"
 	"github.com/ncw/gmp"
 	"github.com/stretchr/testify/assert"
 )
