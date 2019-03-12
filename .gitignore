@@ -1,0 +1,39 @@
+lagrange_interpolate/lr_itpl
+golang_package
+src/protobuf/protobuf-cpp-3.6.1.tar.gz
+src/protobuf/protobuf
+aws/kms-key.pem
+src/protocol/test.sh
+src/metadata
+aws/metadata
+src/localtest/metadata
+./src/localtest/metadata/ip_list
+src/awstest/metadata
+/home/wanglun/ChuRP/visualize/raw_data/*
+/home/wanglun/ChuRP/visualize/figures/*
+/home/wanglun/ChuRP/visualize/data/*
+
+# Binaries for programs and plugins
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+
+# Test binary, build with `go test -c`
+*.test
+
+# Output of the go coverage tool, specifically when used with LiteIDE
+*.out
+
+# IDE stuff
+.idea
+
+# macOS quirks
+.DS_Store
+
+# log files
+*.log
+
+*.pdf
+*.png
