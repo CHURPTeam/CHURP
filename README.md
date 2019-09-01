@@ -2,14 +2,14 @@
 
 # CHURP: Dynamic-Committee Proactive Secret Sharing
 
+**The CHURP code is an academic research prototype, and meant to elucidate protocol details and for proofs-of-concept, and benchmarking. It has not been developed in a production environment and is not meant for deployment.**
+
 [![CircleCI](https://circleci.com/gh/bl4ck5un/ChuRP.svg?style=svg&circle-token=34c3da94eba4225de1da5c4eaabd37466cd50a8a)](https://circleci.com/gh/bl4ck5un/ChuRP)
 
 
 Achieving decentralization requires decentralized cryptography. CHURP (CHUrn-Robust Proactive secret sharing) is a cryptographic protocol for secret sharing in decentralized settings, where committee nodes may come and go. In such a setting, traditional secret sharing (e.g., Shamir's) is no longer secure. Featuring several fundamental innovations, CHURP accomplishes the mission while being 2300x more efficient than previous schemes!
 
 ## Getting Started
-
-The CHURP code is an academic research prototype, and meant to elucidate protocol details and for proofs-of-concept, and benchmarking. It has not been developed in a production environment and is not meant for deployment. 
 
 This the repo for CHURP code (in Golang). Below you can find build and usage instructions.
 
