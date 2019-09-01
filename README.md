@@ -47,6 +47,10 @@ At a high level, CHURP provides the following API:
 
 * (Optional) `retrieveSecret() -> SK`: Reconstruct the secret from shares retrieved from nodes in the `nodeList`. (Note that this function is optional, i.e., CHURP works without any need to explicitly reconstruct the secret.)
 
+WARNING: THIS IS A RESEARCH PROTOTYPE AND IS NOT READY FOR PRODUCTION USAGE. IT MAY CONTAINS BUGS. THE AUTHORS DISCLAIM ANY LIABILITY.
+
+NOTE: The code only implements optimistic path of the CHURP protocol. The pessimistic path is still under development. 
+
 ## Acknowledges
 
 Currently CHURP is built on [Pairing Based Cryptography library](https://crypto.stanford.edu/pbc/) (LGPL) and its [Go wrapper](https://github.com/Nik-U/pbc), [GNU Multi Precision library](https://gmplib.org/) and its [Go wrapper](https://github.com/ncw/gmp) (BSD), and [Google Protobuffer](https://github.com/golang/protobuf).
