@@ -9,11 +9,14 @@ Achieving decentralization requires decentralized cryptography. CHURP (CHUrn-Rob
 
 ## Getting Started
 
+The CHURP code is an academic research prototype, and meant to elucidate protocol details and for proofs-of-concept, and benchmarking. It has not been developed in a production environment and is not meant for deployment. 
+
 This the repo for CHURP code (in Golang). Below you can find build and usage instructions.
 
 If you want to run a demo or play with pre-complied CHURP, the easiest way to get started is to use docker. Please refer to the [docker document](https://docs.docker.com/install/#supported-platforms) for installation instructions.
 
 If you want to build CHURP from source, we've prepared a special `builder` docker image for that, with dependecies installed. (If you really want to build/run the code natively, please refer to the [dockerfiles](dockerfiles/).)
+
 
 ### Run CHURP
 
@@ -46,10 +49,6 @@ At a high level, CHURP provides the following API:
 * `changeCommittee([newNodeList])`: Execute CHURP to handoff the secret `SK` from the old committee, `nodeList`, to the new committee, `newNodeList`.
 
 * (Optional) `retrieveSecret() -> SK`: Reconstruct the secret from shares retrieved from nodes in the `nodeList`. (Note that this function is optional, i.e., CHURP works without any need to explicitly reconstruct the secret.)
-
-WARNING: THIS IS A RESEARCH PROTOTYPE AND IS NOT READY FOR PRODUCTION USAGE. IT MAY CONTAINS BUGS. THE AUTHORS DISCLAIM ANY LIABILITY.
-
-NOTE: The code only implements optimistic path of the CHURP protocol. The pessimistic path is still under development. 
 
 ## Acknowledges
 
