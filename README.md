@@ -1,8 +1,12 @@
+----------------------------------------------------------------
+
+**The CHURP code is an academic research prototype, and meant to elucidate protocol details and for proofs-of-concept, and benchmarking. It has not been developed in a production environment and is not meant for deployment.**
+
+----------------------------------------------------------------
+
 ![logo](logo.png)
 
 # CHURP: Dynamic-Committee Proactive Secret Sharing
-
-**The CHURP code is an academic research prototype, and meant to elucidate protocol details and for proofs-of-concept, and benchmarking. It has not been developed in a production environment and is not meant for deployment.**
 
 [![CircleCI](https://circleci.com/gh/bl4ck5un/ChuRP.svg?style=svg&circle-token=34c3da94eba4225de1da5c4eaabd37466cd50a8a)](https://circleci.com/gh/bl4ck5un/ChuRP)
 
